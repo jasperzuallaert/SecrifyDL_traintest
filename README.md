@@ -5,7 +5,7 @@ https://www.nature.com/articles/s41467-021-26720-y
 
 Packages used during development:
 ```
-python 3.6
+python 3.6.13
 tensorflow v1.10.0
 numpy v1.14.5
 sklearn v0.23.1
@@ -15,6 +15,9 @@ sklearn v0.23.1
 # Training and predicting #
 
 To train a neural network, you can make use of either the *P. pastoris* or *S. Cerevisiae* datasets, by specifying either `pp` or `sc` in input. Additionally, you should also specify the variable length reduction strategy (one of `global_maxp`, `k_maxp`, `gru`, `zero_padding`), as well as the test set file.
+
+The test file should be a .csv file with as columns: `seq_id,sequence,placeholder_label`. The placeholder can just be put to zero, it will not be used. See `data/example_test_set.csv` for an example.
+
 
 ```
 python main.py <training_set_name> <varlen_reduction_strategy> <test_set>

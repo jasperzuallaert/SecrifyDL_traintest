@@ -10,8 +10,8 @@ import tensorflow as tf
 MAX_LENGTH = 250
 
 dataset_loc = {
-    'pp': ('data/pp_{}.dat'),
-    'sc': ('data/sc_{}.dat')
+    'pp': ('data/pp_{}.csv'),
+    'sc': ('data/sc_{}.csv')
 }
 
 # The main script for running experiments. It combines calls to different python files.
