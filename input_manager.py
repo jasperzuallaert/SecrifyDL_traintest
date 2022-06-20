@@ -16,11 +16,8 @@ def get_amino_acid_id(ngram):
         num += 20**i * d_acids[ngram[-(i+1)]]
     return num
 
-def get_sequences(datafiles, max_length):
-    all_lines = []
-    for filename in datafiles:
-        f = open(filename)
-        all_lines.extend(f.readlines())
+def get_sequences(datafile, max_length):
+    all_lines = open(datafile).readlines()
 
     ids = []
     seqs = []

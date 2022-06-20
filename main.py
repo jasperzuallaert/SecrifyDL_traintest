@@ -20,11 +20,9 @@ def run(foldN, dataset_name, test_set_loc, predictions_file, vis_file, varlen_re
         tf.reset_default_graph()
 
     ### Read in training, validation and test sets ##
-    train_files,valid_files = get_filenames_train_test(dataset_loc[dataset_name],foldN)
-
-    train_set = get_sequences(datafiles=train_files,max_length=MAX_LENGTH)
-    valid_set = get_sequences(datafiles=valid_files,max_length=MAX_LENGTH)
-    test_set = get_sequences(datafiles=[test_set_loc],max_length=MAX_LENGTH)
+    train_set = get_sequences(datafile=dataset_loc[dataset_name].format('train'),max_length=MAX_LENGTH)
+    valid_set = get_sequences(datafile=dataset_loc[dataset_name].format('valid'),max_length=MAX_LENGTH)
+    test_set = get_sequences(datafile=test_set_loc,max_length=MAX_LENGTH)
 
     ### Build the topology ###
     nn, is_training = build_network_topology(varlen_red_strategy = varlen_red_strat, max_length=MAX_LENGTH)
@@ -43,12 +41,6 @@ def run(foldN, dataset_name, test_set_loc, predictions_file, vis_file, varlen_re
         vis_calc_ig.runFromSession(sess,test_set=test_set, out_f=vis_file)
     sess.close()
 
-def get_filenames_train_test(datafile_template, foldN):
-    train_files = {datafile_template.format(n) for n in range(10)}
-    valid_files = {datafile_template.format(foldN)}
-    train_files = train_files - valid_files
-    return train_files, valid_files
-
 # run as: main.py <dataset> <varlen_reduction_strategy>
 # with <dataset> one of: sc, pp
 # with <varlen_reduction_strategy> one of: global_maxp, k_maxp, gru, zero_padding
@@ -62,6 +54,7 @@ if __name__ == '__main__':
     assert varlen_red_strat in ['global_maxp', 'k_maxp', 'gru', 'zero_padding'], varlen_red_strat+' not supported'
     if not os.path.exists('predictions/'): os.mkdir('predictions')
     if not os.path.exists('parameters/'): os.mkdir('parameters')
+    if not os.path.exists('visualizations/'): os.mkdir('visualizations')
     predictions_filename = 'predictions/{}_{}_{}.txt'.format(training_set_name, timestamp, '{}')
     vis_filename = 'visualizations/{}_{}_{}.txt'.format(training_set_name, timestamp, '{}')
 

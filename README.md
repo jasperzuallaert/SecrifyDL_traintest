@@ -3,13 +3,14 @@
 This is the python code for training a convolutional neural network for secretability prediction, and to make predictions for a test set. The corresponding publication can be found at
 https://www.nature.com/articles/s41467-021-26720-y
 
-Packages used:
+Packages used during development:
 ```
-python 3.7
+python 3.6
 tensorflow v1.10.0
 numpy v1.14.5
 sklearn v0.23.1
 ```
+
 
 # Training and predicting #
 
@@ -20,7 +21,7 @@ python main.py <training_set_name> <varlen_reduction_strategy> <test_set>
 ```
 For example:
 ```
-python main.py pp kmaxp data/example_test_set.csv
+python main.py pp k_maxp data/example_test_set.csv
 ```
 
 This will train a network on the `pp` or `sc` dataset, and provide predictions on the supplied datasets. By default, it will do so 10 times.
