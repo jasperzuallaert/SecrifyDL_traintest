@@ -7,14 +7,14 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
-def runIntegratedGradientsOnTestSet(predictions_logits,
-                                    sess,
-                                    X_ph,
-                                    seqlens_ph,
-                                    dropout_ph,
-                                    test_dataset,
-                                    out_f,
-                                    max_length):
+def run_integrated_gradients_on_test_set(predictions_logits,
+                                         sess,
+                                         X_ph,
+                                         seqlens_ph,
+                                         dropout_ph,
+                                         test_dataset,
+                                         out_f,
+                                         max_length):
     graph = tf.get_default_graph()
 
     ### tensor for gradient calculation on that embedding output
@@ -55,14 +55,14 @@ def runIntegratedGradientsOnTestSet(predictions_logits,
 
 # Function to call if we want to use IntegratedGradients.py from another file (such as SingleTermWorkflow.py)
 # - For parameters, see the explanation for the function above
-def runFromSession(sess, test_set, out_f):
+def run_from_session(sess, test_set, out_f, max_length):
     graph = tf.get_default_graph()
     prediction_logits = graph.get_tensor_by_name("my_logits/BiasAdd:0")
     X_placeholder = graph.get_tensor_by_name("X_placeholder:0")
     seqlen_ph = graph.get_tensor_by_name("seqlen_placeholder:0")
     dropout_ph = graph.get_tensor_by_name("dropout_placeholder:0")
 
-    runIntegratedGradientsOnTestSet(prediction_logits, sess, X_placeholder, seqlen_ph, dropout_ph, test_set, out_f)
+    run_integrated_gradients_on_test_set(prediction_logits, sess, X_placeholder, seqlen_ph, dropout_ph, test_set, out_f, max_length)
 
 # If called as a standalone python script, it should have the 5 arguments as stated below
 # if len(sys.argv) != 7 and sys.argv[0] == 'IntegratedGradientsRunner.py':
@@ -90,5 +90,5 @@ if __name__ == '__main__':
     saver = tf.train.import_meta_graph(param_file_full_name + '.meta')
     saver.restore(sess, tf.train.latest_checkpoint(param_file))
 
-    runFromSession(sess, test_set, out_f=sys.stdout)
+    run_from_session(sess, test_set, out_f=sys.stdout)
 

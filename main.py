@@ -38,7 +38,7 @@ def run(foldN, dataset_name, test_set_loc, predictions_file, vis_file, varlen_re
     sess = tp.train_network(predictions_file, foldN, dataset_name, timestamp)
     if visualize:
         import vis_calc_ig
-        vis_calc_ig.runFromSession(sess,test_set=test_set, out_f=vis_file)
+        vis_calc_ig.run_from_session(sess, test_set=test_set, out_f=vis_file, max_length=MAX_LENGTH)
     sess.close()
 
 # run as: main.py <dataset> <varlen_reduction_strategy>
